@@ -1,0 +1,26 @@
+<%= form_tag available_doctors_path, method: :get do %>
+	
+	<h3>Find Doctor Availability</h3>
+
+	<br>
+	
+	<div class="field">
+		<label>Select Doctor</label>
+		<%= select_tag "appointment[doctor_id]", options_from_collection_for_select(Doctor.all, "id", "name") %>
+	</div>
+
+	<div class="field">
+		<label>Date</label>
+		<%= date_select("appointment", "date", selected: Date.today) %>
+	</div>
+
+	<div class="field">
+		<label>Time</label>
+		<%= time_select('appointment', 'time') %>
+	</div>
+
+	<div class="field">
+		<%= submit_tag "Search" %>
+	</div>
+
+<% end %>

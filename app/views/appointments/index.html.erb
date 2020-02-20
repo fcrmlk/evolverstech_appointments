@@ -16,7 +16,8 @@
     <% @appointments.each do |appointment| %>
       <tr>
         <td><%= appointment.app_date %></td>
-        <td><%= appointment.app_time %></td>
+        <td><%= appointment.start_time %></td>
+        <td><%= appointment.end_time %></td>
         <td><%= appointment.doctor_id %></td>
         <td><%= link_to 'Show', appointment %></td>
         <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>

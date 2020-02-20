@@ -17,8 +17,15 @@
   </div>
 
   <div class="field">
-    <%= form.label :app_time %>
-    <%= form.time_select :app_time %>
+    <%= form.label :start_time %>
+    <%= form.time_select :start_time %>
+  </div>
+
+  <div class="field">
+
+    <%= form.label :end_time %>
+    <%= form.time_select :end_time %>
+    <%byebug%>
   </div>
 
   <div class="field">
@@ -27,5 +34,6 @@
 
   <div class="actions">
     <%= form.submit %>
+    byebug
   </div>
 <% end %>

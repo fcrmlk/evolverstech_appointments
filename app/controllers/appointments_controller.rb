@@ -17,8 +17,7 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
-    # @appointment.merge!(doctor_id: 1) if appointment_params[:doctor_id].blank?
-
+    # time = make_time_from_params(appointment_params)
     respond_to do |format|
       if @appointment.save
         format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
@@ -54,8 +53,11 @@ class AppointmentsController < ApplicationController
     def set_appointment
       @appointment = Appointment.find(params[:id])
     end
-
+  #   def make_time_from_params(params)
+  #     byebug
+  #   Time.new(params[:appointment]['time(1i)'], params[:appointment]['time(2i)'], params[:appointment]['time(3i)'], params[:appointment]['time(4i)'], params[:appointment]['time(5i)'])
+  # end
     def appointment_params
-      params.require(:appointment).permit(:app_date, :app_time, :doctor_id)
+      params.require(:appointment).permit(:app_date, :start_time, :end_time, :doctor_id)
     end
 end

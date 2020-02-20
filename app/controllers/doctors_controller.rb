@@ -1,73 +1,77 @@
 class DoctorsController < ApplicationController
   before_action :set_doctor, only: [:show, :edit, :update, :destroy]
 
-  # GET /doctors
-  # GET /doctors.json
   def index
     @doctors = Doctor.all
   end
 
-  # GET /doctors/1
-  # GET /doctors/1.json
+  def search
+  end
+
+  def available
+    date = Date.civil(params[:appointment]["date(1i)"].to_i,params[:appointment]["date(2i)"].to_i,params[:appointment]["date(3i)"].to_i)
+    time = make_time_from_params(params).to_time
+    Appointment.where(doctor_id: params[:appointment][:doctor_id], app_date: date).each do |appointment|
+      @availablity = false if (appointment.start_time.to_time..appointment.end_time.to_time).include?(time.to_time)
+    end
+
+  end
+
   def show
   end
 
-  # GET /doctors/new
   def new
     @doctor = Doctor.new
   end
 
-  # GET /doctors/1/edit
   def edit
   end
 
-  # POST /doctors
-  # POST /doctors.json
   def create
     @doctor = Doctor.new(doctor_params)
 
     respond_to do |format|
       if @doctor.save
         format.html { redirect_to @doctor, notice: 'Doctor was successfully created.' }
-        format.json { render :show, status: :created, location: @doctor }
+        # format.json { render :show, status: :created, location: @doctor }
       else
         format.html { render :new }
-        format.json { render json: @doctor.errors, status: :unprocessable_entity }
+        # format.json { render json: @doctor.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /doctors/1
-  # PATCH/PUT /doctors/1.json
   def update
     respond_to do |format|
       if @doctor.update(doctor_params)
         format.html { redirect_to @doctor, notice: 'Doctor was successfully updated.' }
-        format.json { render :show, status: :ok, location: @doctor }
+        # format.json { render :show, status: :ok, location: @doctor }
       else
         format.html { render :edit }
-        format.json { render json: @doctor.errors, status: :unprocessable_entity }
+        # format.json { render json: @doctor.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /doctors/1
-  # DELETE /doctors/1.json
   def destroy
     @doctor.destroy
     respond_to do |format|
       format.html { redirect_to doctors_url, notice: 'Doctor was successfully destroyed.' }
-      format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+    def make_time_from_params(params)
+      byebug
+      Time.new(params[:appointment]['time(1i)'], params[:appointment]['time(2i)'], params[:appointment]['time(3i)'], params[:appointment]['time(4i)'], params[:appointment]['time(5i)'])
+    end
+
     def set_doctor
       @doctor = Doctor.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def doctor_params
       params.require(:doctor).permit(:name)
     end
